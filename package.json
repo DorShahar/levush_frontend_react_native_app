@@ -21,6 +21,7 @@
     "react-dom": "~16.9.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-36.0.0.tar.gz",
     "react-native-blank-spacer": "0.0.2",
+    "react-native-camera-hooks": "^0.3.1",
     "react-native-elements": "^1.2.7",
     "react-native-gesture-handler": "^1.6.1",
     "react-native-reanimated": "^1.7.1",
@@ -28,7 +29,9 @@
     "react-native-screens": "^2.4.0",
     "react-native-spacer": "^1.5.1",
     "react-native-web": "~0.11.7",
-    "react-navigation": "^4.3.3"
+    "react-navigation": "^4.3.3",
+    "expo-camera": "~8.0.0",
+    "expo-image-picker": "~8.0.1"
   },
   "devDependencies": {
     "babel-preset-expo": "~8.0.0",
