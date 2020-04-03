@@ -1,5 +1,4 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
 import AppNavigator from "./src/navigation/AppNavigator"
 import { NavigationContainer } from '@react-navigation/native';
 import Amplify from 'aws-amplify';

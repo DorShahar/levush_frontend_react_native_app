@@ -1,63 +1,69 @@
 import React, { useState, useEffect } from 'react';
-import {Text, View, TouchableOpacity, StyleSheet, Image ,CameraRoll} from 'react-native';
+import {Text, View, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { Camera } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
-import {render} from "react-native-web"
-
-const ALBUM_NAME = 'LEVUSH_APP';
-
-// TODO: image is touchable
+import Consts from "../components/Consts"
+import { useNavigation } from '@react-navigation/native';
 
 
-const CameraScreen = (props) => {
+const CameraScreen = () => {
     const [hasPermission, setHasPermission] = useState(null);
     const [cameraRef, setCameraRef] = useState(null)
-    const [type, setType] = useState(Camera.Constants.Type.back);
     const [cachedImageUri,setCachedImageUri] = useState(null);
-    const [allAssets,setAllAssets] = useState([]);
+    const navigation = useNavigation();
+
 
     useEffect(() => {
         (async  ()=> {
             const {status} = await Camera.requestPermissionsAsync();
             setHasPermission(status === 'granted');
+            console.log('CameraScreen, useEffect, status:',status);
         })();
-    },[]);
+    },[hasPermission]);
 
     if (hasPermission == null) return <View/>
     if (hasPermission === false) return <Text>No access to camera</Text>
 
     const takePicture = async () =>{
-      let assets = null;
+      let assetsObj = null;
       if(cameraRef){
           const {uri} = await cameraRef.takePictureAsync();
           setCachedImageUri(uri);
 
           const cachedAsset = await MediaLibrary.createAssetAsync(uri);
-          const myAlbum = await MediaLibrary.getAlbumAsync(ALBUM_NAME)
+          const myAlbum = await MediaLibrary.getAlbumAsync(Consts.ALBUM_NAME)
 
           if(!myAlbum){
-              let albumCreated = await MediaLibrary.createAlbumAsync(ALBUM_NAME,cachedAsset,false);
+              let albumCreated = await MediaLibrary.createAlbumAsync(Consts.ALBUM_NAME,cachedAsset,false);
               if(albumCreated) {
-                  assets = await MediaLibrary.getAssetsAsync({ album: albumCreated.id});
-                  setAllAssets(assets);
-
+                  assetsObj = await MediaLibrary.getAssetsAsync({ album: albumCreated.id});
               } else {
+                  console.log('Error: album not created');
               }
           } else {
-              let addedAsset =  MediaLibrary.addAssetsToAlbumAsync([cachedAsset], myAlbum, true);
+              let addedAsset =  MediaLibrary.addAssetsToAlbumAsync([cachedAsset], myAlbum, false);
               if(addedAsset){
-                  assets = await MediaLibrary.getAssetsAsync({album:myAlbum});
-                  setAllAssets(assets);
-
+                  assetsObj = await MediaLibrary.getAssetsAsync({album:myAlbum});
               }
           }
+
+            const currentAsset = assetsObj.assets[assetsObj.totalCount - 1];
+
+          console.log(' --- takePicture function ---');
+          console.log('cachedAsset : ',cachedAsset);
+          console.log('#items : ',assetsObj.totalCount);
+          console.log('last asset : ',currentAsset);
+
+
+          navigation.navigate('imageCapturedScreen',{currentAsset: currentAsset});
       }
     };
+
 
     return (
         <View style={styles.fill}>
             <Camera style={styles.fill}
-                    type={type}
+                    type={Camera.Constants.Type.back}
                     ref={ref => {setCameraRef(ref)}}>
 
                 <TouchableOpacity style={styles.btnContainer }

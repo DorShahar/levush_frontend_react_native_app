@@ -7,9 +7,10 @@ const AuthLoadingScreen = (props) => {
      useEffect(()=> {
         checkIfUserAuthenticated();
         Hub.listen('auth',async (data) => {
-            console.log('Hub.listen : ' ,data.payload.event);
-            const event = data.payload.event;
 
+            console.log('Hub.listen : ' ,data.payload.event);
+
+            const event = data.payload.event;
             switch (event) {
                 case 'signIn':
                     props.navigation.navigate('MainNavigator');
