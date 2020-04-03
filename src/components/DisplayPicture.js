@@ -26,11 +26,14 @@ const DisplayPicture = ({currentAsset}) => {
     if(uri){
         return (
             <View style={styles.fill}>
-                <TouchableOpacity style={styles.topBtn} onPress={ ()=> removePicture()}>
-                    <Text> delete image </Text>
-                </TouchableOpacity>
+                <View styles={styles.btnWrapper}>
+                    <TouchableOpacity style={styles.topBtn} onPress={ ()=> removePicture()}>
+                        <Text style={styles.text}> Delete image </Text>
+                    </TouchableOpacity>
+                </View>
 
-                <View style={[styles.imageViewWrapper]}>
+
+                <View style={styles.imageViewWrapper}>
                     <Image source={{uri: uri}}
                            style={styles.imageContainer}/>
                 </View>
@@ -43,14 +46,17 @@ const styles = StyleSheet.create({
      topBtn : {
          alignItems: 'center',
          margin: 20,
-         flex: 1,
+         backgroundColor: 'grey',
      },
     text: {
         fontSize: 18,
-        padding: 10,
+        padding: 20,
+        textTransform: 'capitalize',
+    },
+    btnWrapper :{
+         alignItems: 'center',
     },
     fill: {
-        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -60,8 +66,9 @@ const styles = StyleSheet.create({
 
      },
     imageViewWrapper: {
-        flex: 4,
+        marginTop: 20,
         backgroundColor: 'yellow',
+        flex: 1
     }
 });
 
