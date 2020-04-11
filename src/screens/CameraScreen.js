@@ -4,7 +4,9 @@ import { Camera } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 import Consts from "../components/Consts"
 import { useNavigation } from '@react-navigation/native';
+import {PredictByClarifaiApparelModel, PredictByWorkFlow} from "../components/Predict"
 
+//TODO: get picture as component
 
 const CameraScreen = () => {
     const [hasPermission, setHasPermission] = useState(null);
@@ -24,11 +26,12 @@ const CameraScreen = () => {
     if (hasPermission == null) return <View/>
     if (hasPermission === false) return <Text>No access to camera</Text>
 
-    const takePicture = async () =>{
+    const takePicture = async () => {
       let assetsObj = null;
       if(cameraRef){
-          const {uri} = await cameraRef.takePictureAsync();
+          const {uri , base64} = await cameraRef.takePictureAsync({base64: true});
           setCachedImageUri(uri);
+
 
           const cachedAsset = await MediaLibrary.createAssetAsync(uri);
           const myAlbum = await MediaLibrary.getAlbumAsync(Consts.ALBUM_NAME)
@@ -41,21 +44,23 @@ const CameraScreen = () => {
                   console.log('Error: album not created');
               }
           } else {
-              let addedAsset =  MediaLibrary.addAssetsToAlbumAsync([cachedAsset], myAlbum, false);
-              if(addedAsset){
+              let isAssetAdded =  await MediaLibrary.addAssetsToAlbumAsync([cachedAsset], myAlbum, false);
+              if(isAssetAdded){
                   assetsObj = await MediaLibrary.getAssetsAsync({album:myAlbum});
               }
           }
 
-            const currentAsset = assetsObj.assets[assetsObj.totalCount - 1];
+            const lastAssetsSaved = assetsObj.assets[assetsObj.totalCount - 1];
 
           console.log(' --- takePicture function ---');
           console.log('cachedAsset : ',cachedAsset);
           console.log('#items : ',assetsObj.totalCount);
-          console.log('last asset : ',currentAsset);
+          console.log('@ last asset : ',lastAssetsSaved);
 
+          {<PredictByWorkFlow image={base64}/> }
+              { <PredictByClarifaiApparelModel image={uri}/> }
 
-          navigation.navigate('imageCapturedScreen',{currentAsset: currentAsset});
+          navigation.navigate('imageCapturedScreen',{currentAsset: lastAssetsSaved});
       }
     };
 
@@ -81,7 +86,6 @@ const CameraScreen = () => {
                     }
                 </View>
             </Camera>
-
         </View>
     );
 };

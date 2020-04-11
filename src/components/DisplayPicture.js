@@ -4,6 +4,9 @@ import * as MediaLibrary from "expo-media-library"
 import Consts from "./Consts"
 import { useNavigation } from '@react-navigation/native';
 
+//TODO: edit UI
+//TODO: make sure the asset was removed from dir
+
 
 const DisplayPicture = ({currentAsset}) => {
 
@@ -13,7 +16,6 @@ const DisplayPicture = ({currentAsset}) => {
     console.log('-- DisplayPicture component -- ');
     console.log(' > currentAsset uri : ', uri);
     console.log(' > currentAsset object: ', currentAsset);
-
 
     const removePicture = async () => {
         console.log(' ! DisplayPicture, removePicture !');

@@ -2,6 +2,8 @@ import React from 'react';
 import {Button, View, Text, FlatList} from 'react-native';
 import { Auth } from 'aws-amplify';
 
+//TODO: change to touchable opacity button to edit UI
+
 const MainScreen = (props) =>{
 
     return(

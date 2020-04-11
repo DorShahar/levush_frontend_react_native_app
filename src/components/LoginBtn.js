@@ -2,6 +2,8 @@ import React from 'react';
 import { Auth } from 'aws-amplify';
 import {StyleSheet ,Button } from "react-native";
 
+//TODO: change to touchable opacity button to edit UI
+
 
 const LoginButton = props => {
     if (!props.title || !props.provider) return
