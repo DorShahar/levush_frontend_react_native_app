@@ -4,9 +4,10 @@ import { Camera } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 import Consts from "../components/Consts"
 import { useNavigation } from '@react-navigation/native';
-import {PredictByClarifaiApparelModel, PredictByWorkFlow} from "../components/Predict"
 
 //TODO: get picture as component
+// TODO: handle predict
+
 
 const CameraScreen = () => {
     const [hasPermission, setHasPermission] = useState(null);
@@ -53,14 +54,13 @@ const CameraScreen = () => {
             const lastAssetsSaved = assetsObj.assets[assetsObj.totalCount - 1];
 
           console.log(' --- takePicture function ---');
-          console.log('cachedAsset : ',cachedAsset);
-          console.log('#items : ',assetsObj.totalCount);
-          console.log('@ last asset : ',lastAssetsSaved);
+          console.log('1)  assetsObj[assets] : ',assetsObj.assets);
+          console.log('2)  cachedAsset : ',cachedAsset);
+          console.log('3)  #items : ',assetsObj.totalCount);
+          console.log('4)  last asset : ',lastAssetsSaved);
+          console.log('5) uri to predict (lastAssetsSaved.uri): ',lastAssetsSaved.uri);
 
-          {<PredictByWorkFlow image={base64}/> }
-              { <PredictByClarifaiApparelModel image={uri}/> }
-
-          navigation.navigate('imageCapturedScreen',{currentAsset: lastAssetsSaved});
+          navigation.navigate('imageCapturedScreen',{currentAsset: lastAssetsSaved, base64: base64});
       }
     };
 

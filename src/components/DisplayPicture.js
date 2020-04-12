@@ -13,13 +13,13 @@ const DisplayPicture = ({currentAsset}) => {
     const navigation = useNavigation();
     const uri = currentAsset.uri;
 
-    console.log('-- DisplayPicture component -- ');
-    console.log(' > currentAsset uri : ', uri);
-    console.log(' > currentAsset object: ', currentAsset);
+    // console.log('-- DisplayPicture component -- ');
+    // console.log(' > currentAsset uri : ', uri);
+    // console.log(' > currentAsset object: ', currentAsset);
 
     const removePicture = async () => {
         console.log(' ! DisplayPicture, removePicture !');
-        const isRemoved = await MediaLibrary.removeAssetsFromAlbumAsync(currentAsset,Consts.ALBUM_NAME)
+        const isRemoved = await MediaLibrary.removeAssetsFromAlbumAsync([currentAsset],Consts.ALBUM_NAME)
         console.log(' ! did image been removed? ',isRemoved);
 
         isRemoved && navigation.goBack();
@@ -36,7 +36,7 @@ const DisplayPicture = ({currentAsset}) => {
 
 
                 <View style={styles.imageViewWrapper}>
-                    <Image source={{uri: uri}}
+                    <Image source={{uri: uri.toString()}}
                            style={styles.imageContainer}/>
                 </View>
             </View>

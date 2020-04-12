@@ -1,15 +1,16 @@
 import React from "react"
 import {View,StyleSheet} from "react-native"
 import DisplayPicture from "../components/DisplayPicture"
+import * as Predict from "../components/Predict"
+
 
 const imageCapturedScreen = ({route}) => {
 
-    const {currentAsset} = route.params;
+    const {currentAsset , base64} = route.params;
 
     console.log('-- imageCapturedScreen --');
-    console.log('route.params',route.params);
 
-    console.log('currentAsset', currentAsset);
+    Predict.predictByClarifaiApparelModel(base64);
 
     return (
         <View>
@@ -17,5 +18,6 @@ const imageCapturedScreen = ({route}) => {
         </View>
     );
 };
+
 
 export default imageCapturedScreen;

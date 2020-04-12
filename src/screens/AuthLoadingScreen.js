@@ -7,18 +7,21 @@ const AuthLoadingScreen = (props) => {
      useEffect(()=> {
         checkIfUserAuthenticated();
         Hub.listen('auth',async (data) => {
+            try{
+                console.log('Hub.listen : ' ,data.payload.event);
 
-            console.log('Hub.listen : ' ,data.payload.event);
-
-            const event = data.payload.event;
-            switch (event) {
-                case 'signIn':
-                    props.navigation.navigate('MainNavigator');
-                    break;
-                case 'signOut':
-                    props.navigation.navigate('AuthScreen');
-                    break;
-                default: break;
+                const event = data.payload.event;
+                switch (event) {
+                    case 'signIn':
+                        props.navigation.navigate('MainNavigator');
+                        break;
+                    case 'signOut':
+                        props.navigation.navigate('AuthScreen');
+                        break;
+                    default: break;
+                }
+            } catch (e) {
+                console.log('!!! Error in AuthLoadingScreen : Hub.listen',e);
             }
         });
     },[]);
