@@ -10,7 +10,8 @@ const imageCapturedScreen = ({route}) => {
 
     console.log('-- imageCapturedScreen --');
 
-    Predict.predictByClarifaiApparelModel(base64);
+    //Predict.predictByClarifaiApparelModel(base64);
+    Predict.predictByWorkFlow(base64);
 
     return (
         <View>
